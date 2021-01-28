@@ -8,8 +8,8 @@ import pygame
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__), 'snd')
 
-WIDTH = 745
-HEIGHT = 600
+WIDTH = 1300
+HEIGHT = 700
 FPS = 60
 score = 0
 
@@ -99,7 +99,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(player_img,
                                             (104, 24))
         # убираем черный квадрат
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey()
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 1
@@ -157,7 +157,8 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(player_img,
                                                 (104, 24))
             self.image.set_colorkey(BLACK)
-            self.rect.inflate(104, 24)
+            self.rect.width = 104
+            self.rect.height = 24
 
         # Супер мяч
         if self.super_shoot_flag and keystate[pygame.K_s]:
@@ -195,11 +196,13 @@ class Player(pygame.sprite.Sprite):
         if choice > 0:
             self.image = pygame.transform.scale(player_img,
                                                 (52, 24))
-            self.rect.inflate(52, 24)
+            self.rect.width = 52
+            self.rect.height = 24
         elif choice == 0:
             self.image = pygame.transform.scale(player_img,
                                                 (156, 24))
-            self.rect.inflate(156, 24)
+            self.rect.width = 156
+            self.rect.height = 24
         self.image.set_colorkey(BLACK)
 
 
@@ -213,7 +216,7 @@ class Mob(pygame.sprite.Sprite):
         self.speedy = random.randrange(1, 8)
         self.speedx = random.randrange(-3, 3)
         self.last_row_time = pygame.time.get_ticks()
-        self.new_row_time = 30000
+        self.new_row_time = 15000
 
     def update(self):
         global mob_flag
@@ -423,6 +426,9 @@ score = 0
 count = 0
 mob_flag = False
 pygame.mixer.music.play(loops=-1)
+m = Mob(HEIGHT + 100, WIDTH + 100)
+all_sprites.add(m)
+mobs.add(m)
 
 # Цикл игры
 game_over = True
